@@ -1,0 +1,11 @@
+Project,Status,Budget,ActualCost,DelayDays,RiskLevel
+Apollo,Complete,100000,120000,15,High
+Mercury,In Progress,80000,75000,2,Low
+Gemini,Delayed,150000,180000,30,High
+Orion,Complete,50000,45000,0,Low
+Phoenix,In Progress,120000,140000,10,Medium
+Atlas,Delayed,95000,110000,20,High
+Nova,Complete,70000,68000,1,Low
+Titan,In Progress,200000,230000,25,High
+Helios,Delayed,130000,145000,18,Medium
+Vega,Complete,60000,59000,0,Low
