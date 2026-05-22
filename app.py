@@ -3,13 +3,18 @@ import json
 
 import pandas as pd
 import streamlit as st
+import plotly.express as px
 from dotenv import load_dotenv
 from openai import OpenAI
 
 
 load_dotenv(override=True)
 
-api_key = st.secrets.get("OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY")
+try:
+    api_key = st.secrets["OPENAI_API_KEY"]
+except Exception:
+    api_key = os.getenv("OPENAI_API_KEY")
+
 client = OpenAI(api_key=api_key)
 
 st.set_page_config(
@@ -52,48 +57,147 @@ if uploaded_file is not None:
     col2.metric("Average delay", f"{average_delay:.1f} days")
     col3.metric("Average cost variance", f"{average_cost_variance_pct:.1f}%")
 
-    st.subheader("Project Delays")
-    st.bar_chart(
-        df.set_index("Project")["DelayDays"]
+    st.subheader("Portfolio Risk Analysis")
+
+    # Define consistent colors for risk levels
+    risk_colors={
+        "Low": "green",
+        "Medium": "orange",
+        "High": "red"
+    }
+
+    # Project Delays Chart (only showing projects with >10 days delay for clarity)
+    df_sorted_by_delays = df[df["DelayDays"] > 10].sort_values(
+        by="DelayDays",
+        ascending=False
     )
 
-    st.subheader("Cost Variance")
-    st.bar_chart(
-        df.set_index("Project")["CostVariancePct"]
+    project_delays_chart = px.bar(
+        df_sorted_by_delays,
+        x="Project",
+        y="DelayDays",
+        color="RiskLevel",
+        title="Project Delay (Days) by Risk Level (Only Projects > 10 Days Delay)",
+        category_orders={"Project": df_sorted_by_delays["Project"].tolist()},
+        color_discrete_map=risk_colors,
+        hover_data={
+            "Budget": ":,.0f",
+            "ActualCost": ":,.0f",
+            "CostVariancePct": True
+        }
+    )
+
+    st.plotly_chart(
+        project_delays_chart, 
+        use_container_width=True
+    )
+
+    # Cost Variance Chart
+    df_sorted_by_cost_variance = df.sort_values(
+        by="CostVariancePct",
+        ascending=False
+    )
+
+    cost_variance_chart = px.bar(
+        df_sorted_by_cost_variance,
+        x="Project",
+        y="CostVariancePct",
+        color="RiskLevel",
+        title="Project Cost Variance (%) by Risk Level",
+        category_orders={"Project": df_sorted_by_cost_variance["Project"].tolist()},
+        color_discrete_map=risk_colors,
+        hover_data={
+            "Budget": ":,.0f",
+            "ActualCost": ":,.0f",
+            "DelayDays": True
+        }
+    )
+
+    st.plotly_chart(
+        cost_variance_chart, 
+        use_container_width=True
+    )
+
+    # Delay vs Cost Variance Scatter Plot
+    scatter_chart = px.scatter(
+        df,
+        x="DelayDays",
+        y="CostVariancePct",
+        color="RiskLevel",
+        hover_name="Project",
+        title="Project Delay vs Cost Variance",
+        color_discrete_map=risk_colors,
+        category_orders={
+            "RiskLevel": ["High", "Medium", "Low"]
+        },
+        hover_data={
+            "Budget": ":,.0f",
+            "ActualCost": ":,.0f",
+            "Status": True
+        }
+    )
+
+    scatter_chart.update_traces(
+        marker=dict(
+            size=14,
+            line=dict(width=1, color="white")
+        )
+    )
+
+    scatter_chart.update_layout(
+        xaxis_title="Delay (Days)",
+        yaxis_title="Cost Variance (%)"
+    )
+
+    scatter_chart.add_hline(
+    y=0,
+    line_dash="dash",
+    line_color="gray"
+)
+
+    scatter_chart.add_vline(
+        x=0,
+        line_dash="dash",
+        line_color="gray"
+    )
+
+    st.plotly_chart(
+        scatter_chart,
+        use_container_width=True
     )
 
     high_risk_records = high_risk_df.to_dict(orient="records")
 
     analysis_prompt = f"""
-You are a senior programme delivery consultant.
+        You are a senior programme delivery consultant.
 
-Portfolio metrics:
+        Portfolio metrics:
 
-- High-risk projects: {high_risk_count}
-- Average delay: {average_delay:.1f} days
-- Average cost variance: {average_cost_variance_pct:.1f}%
-- Delay/cost variance correlation: {correlation:.2f}
+        - High-risk projects: {high_risk_count}
+        - Average delay: {average_delay:.1f} days
+        - Average cost variance: {average_cost_variance_pct:.1f}%
+        - Delay/cost variance correlation: {correlation:.2f}
 
-High risk project records:
+        High risk project records:
 
-{json.dumps(high_risk_records, indent=2)}
+        {json.dumps(high_risk_records, indent=2)}
 
-Return your response in markdown with these sections:
+        Return your response in markdown with these sections:
 
-## Executive Summary
+        ## Executive Summary
 
-## Observations
-Clearly distinguish observed facts from inferred risks.
+        ## Observations
+        Clearly distinguish observed facts from inferred risks.
 
-## Key Risks
-Include reasonable interpretations, but clearly distinguish them from observed facts.
+        ## Key Risks
+        Include reasonable interpretations, but clearly distinguish them from observed facts.
 
-## Recommended Actions
-Provide practical delivery management actions.
+        ## Recommended Actions
+        Provide practical delivery management actions.
 
-Keep the tone concise and professional.
-Only reference issues directly supported by the dataset.
-"""
+        Keep the tone concise and professional.
+        Only reference issues directly supported by the dataset.
+        """
 
     if st.button("Generate AI Analysis"):
         with st.spinner("Generating analysis..."):
