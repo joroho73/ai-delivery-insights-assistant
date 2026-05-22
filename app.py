@@ -212,6 +212,18 @@ if uploaded_file is not None:
         """
     )
 
+    at_risk_records = at_risk_df.to_dict(orient="records")
+
+    st.subheader("At-Risk projects download")
+    st.write("You can download the list of at-risk projects as a CSV file for further analysis or reporting.")
+
+    st.download_button(
+        label="Download at-risk projects",
+        data=at_risk_df.to_csv(index=False),
+        file_name="at_risk_projects.csv",
+        mime="text/csv"
+    )
+
     # Project Delays Chart (only showing projects with >10 days delay for clarity)
     df_sorted_by_delays = df[df["DelayDays"] > 10].sort_values(
         by="DelayDays",
@@ -307,18 +319,6 @@ if uploaded_file is not None:
     st.plotly_chart(
         scatter_chart,
         width='stretch'
-    )
-
-    at_risk_records = at_risk_df.to_dict(orient="records")
-
-    st.subheader("At-Risk projects download")
-    st.write("You can download the list of at-risk projects as a CSV file for further analysis or reporting.")
-
-    st.download_button(
-        label="Download at-risk projects",
-        data=at_risk_df.to_csv(index=False),
-        file_name="at_risk_projects.csv",
-        mime="text/csv"
     )
 
     st.header("AI Project Portfolio Analysis")
