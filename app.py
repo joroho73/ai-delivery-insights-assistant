@@ -132,6 +132,8 @@ st.set_page_config(
 st.title("AI Project Delivery Insights Assistant")
 st.write(
     """
+    Created by [John Howard](https://www.linkedin.com/in/johnroberthoward/) -  Programme Delivery and Data Analytics Consultant.
+    
     This tool helps programme delivery managers quickly identify at-risk projects and understand portfolio delivery performance.
     Upload a CSV of project data to identify at-risk projects, visualise delivery performance,
     and generate an AI-assisted portfolio risk summary.
