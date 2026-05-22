@@ -322,6 +322,12 @@ if uploaded_file is not None:
     )
 
     st.header("AI Project Portfolio Analysis")
+    st.write(
+        """
+        Click this button to generate an AI analysis of your project portfolio based on the uploaded data and visualisations.
+        The AI will provide an executive summary, key observations, identified risks, and recommended actions.
+        """
+    )
 
     analysis_prompt = f"""
         You are a senior programme delivery consultant.
