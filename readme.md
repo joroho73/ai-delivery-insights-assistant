@@ -84,3 +84,60 @@ Clone the repository:
 ```bash
 git clone https://github.com/joroho73/ai-delivery-insights-assistant.git
 cd ai-delivery-insights-assistant
+```
+
+Install dependencies:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+Create a .env file:
+
+```bash
+OPENAI_API_KEY=your_api_key_here
+```
+
+Run the app:
+
+```bash
+streamlit run app.py
+```
+
+## Deployment
+
+The app is deployed using Streamlit Community Cloud.
+For deployment, the OpenAI API key should be added through Streamlit Secrets:
+
+```toml
+OPENAI_API_KEY = "your_api_key_here"
+```
+
+Do not commit .env or API keys to GitHub.
+
+## Project Purpose
+
+This project demonstrates an end-to-end AI-assisted analytics workflow:
+
+CSV upload
+→ data validation
+→ pandas transformation
+→ risk classification
+→ Plotly visualisation
+→ OpenAI-generated analysis
+→ downloadable HTML report
+
+It was built as a portfolio project to demonstrate practical AI integration in a project delivery / technical programme management context.
+
+Future Improvements
+
+Possible future enhancements:
+
+Add configurable at-risk thresholds
+Add support for Excel uploads
+Add cached AI analysis to avoid repeat API calls
+Add richer data validation and friendly error messages
+Add PDF export
+Add trend analysis across reporting periods
+Move reusable logic into helper modules
+Add automated tests
