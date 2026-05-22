@@ -407,7 +407,7 @@ if uploaded_file is not None:
         )
 
         st.download_button(
-            label="Download Report",
+            label="Download FullReport",
             data=html_report,
             file_name="ai_delivery_insights_report.html",
             mime="text/html"
