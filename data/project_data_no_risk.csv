@@ -1,0 +1,11 @@
+Project,Status,Budget,ActualCost,DelayDays
+Apollo,Complete,100000,120000,15
+Mercury,In Progress,80000,75000,2
+Gemini,Delayed,150000,180000,30
+Orion,Complete,50000,45000,0
+Phoenix,In Progress,120000,140000,10
+Atlas,Delayed,95000,110000,20
+Nova,Complete,70000,68000,1
+Titan,In Progress,200000,230000,25
+Helios,Delayed,130000,145000,18
+Vega,Complete,60000,59000,0
