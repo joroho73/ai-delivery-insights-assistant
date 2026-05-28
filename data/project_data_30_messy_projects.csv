@@ -1,0 +1,31 @@
+Project,Budget,ActualCost,DelayDays,RiskLevel,Status
+Apollo,120000,144000,15,High,Completed
+Gemini,250000,300000,30,High,Delayed
+Atlas,180000,208800,20,High,Delayed
+Titan,400000,460000,25,High,In Progress
+Phoenix,150000,176000,12,Medium,In Progress
+Helios,220000,245300,18,Medium,Delayed
+Orion,300000,270000,0,Low,Completed
+Mercury,95000,89250,2,Low,In Progress
+Neptune,275000,305250,7,Medium,In Progress
+Zephyr,130000,143000,-3,Low,Completed
+Nova,340000,329800,1,Low,Completed
+Quantum,210000,252000,9,Medium,In Progress
+Vanguard,160000,188800,22,Medium,Delayed
+Sentinel,390000,429000,6,High,In Progress
+Aurora,145000,137750,14,Low,Delayed
+Pioneer,175000,210000,-2,High,Completed
+Odyssey,280000,316400,28,Medium,Delayed
+Vertex,190000,184300,11,Medium,In Progress
+Nimbus,125000,150000,4,High,In Progress
+Falcon,310000,303800,19,Low,Delayed
+Catalyst,205000,229600,8,Medium,In Progress
+Horizon,170000,187000,-1,Medium,Completed
+Eclipse,360000,450000,33,High,Delayed
+Matrix,240000,223200,10,Low,In Progress
+Summit,110000,137500,21,High,Delayed
+Pulse,260000,247000,13,Low,Delayed
+Stratos,185000,210900,5,Medium,In Progress
+Ignite,140000,128800,16,Low,Delayed
+Voyager,320000,384000,29,High,Delayed
+Zenith,230000,216200,3,Medium,Completed
